@@ -1,10 +1,23 @@
 #pragma once
 #include "../PlayerStateBase.h"
+#include <vector>
 
 class JumpingState : public PlayerStateBase
 {
 private:
 	class InputControl* input;  // “ü—Íî•ñ
+
+	std::vector<int> jumping_animation;
+
+	int jumping_animation_num;
+	int jumping_animation_count;
+	float jumping_animation_time;
+
+	int jumping_image;
+
+	float start_x;
+
+	float jump_angle;
 
 public:
 	JumpingState(class Player* p);
