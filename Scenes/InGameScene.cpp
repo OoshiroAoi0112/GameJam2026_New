@@ -17,6 +17,7 @@ bool image_flag;
 bool item_spawned;
 int speed;
 int score_animation[10];
+int IngameBgmHandle;
 
 InGameScene::InGameScene()
 	: player(nullptr)
@@ -27,6 +28,8 @@ InGameScene::InGameScene()
 {
 	/*score = LoadGraph
 	score_animation = LoadDivGraph("Resource/image/suuji.png", 3, 3, 1, 200, 200, score_animation);*/
+
+	IngameBgmHandle = LoadSoundMem("Resource/sounds/InGame/InGameBGM.mp3");
 }
 
 InGameScene::~InGameScene()
@@ -73,6 +76,7 @@ void InGameScene::Initialize()
 
 eSceneType InGameScene::Update(const float& delta_second)
 {
+	IngameBgm();
 	StageData* Stage = StageData::GetInstance();
 	Stage->Update(delta_second);
 
@@ -168,7 +172,7 @@ void InGameScene::Draw() const
 
 void InGameScene::Finalize()
 {
-
+	StopSoundMem(IngameBgmHandle);
 }
 
 const eSceneType InGameScene::GetNowSceneType() const
@@ -180,4 +184,13 @@ const eSceneType InGameScene::GetNowSceneType() const
 const Vector2D& InGameScene::GetScreenOffset() const
 {
 	return screen_offset;
+}
+
+void InGameScene::IngameBgm()
+{
+	if (CheckSoundMem(IngameBgmHandle) == 0)
+	{
+		PlaySoundMem(IngameBgmHandle, DX_PLAYTYPE_LOOP);
+		CheckSoundMem(IngameBgmHandle);
+	}
 }

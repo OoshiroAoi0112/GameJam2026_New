@@ -26,8 +26,17 @@ private:
 
 	// ----- 地面との当たり判定のための変数 ----- //
 	Vector2D prev_location; // 前フレームの位置
+	// --- y軸の押し返しのための変数 --- //
 	bool has_ground_candidate; // 地面候補があるかどうか
 	float ground_top_y; // 地面候補の上端のY座標
+	// --- x軸の押し返しのための変数 --- //
+	// - 左から当たるときは壁の右端を見る - //
+	bool has_wall_candidate_left; // 左の壁候補があるかどうか
+	float wall_right_x;           // 左の壁候補の右端のX座標
+	// - 右から当たるときは壁の左端を見る - //
+	bool has_wall_candidate_right; // 右の壁候補があるかどうか
+	float wall_left_x;           // 右の壁候補の左端のX座標
+
 	
 	class PlayerStateBase* state;
 	ePlayerState next_state;  // 次の状態

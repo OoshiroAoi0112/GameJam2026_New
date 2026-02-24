@@ -65,7 +65,7 @@ void IdlingState::Draw(const Vector2D& screen_offset) const
 	int drawX = static_cast<int>(player->location.x + screen_offset.x);
 	int drawY = static_cast<int>(player->location.y + screen_offset.y);
 
-	DrawRotaGraph(drawX,drawY, 0.4, 0, idling_image, TRUE);
+	DrawRotaGraph(drawX,drawY - 30, 0.4, 0, idling_image, TRUE);
 
 	DrawFormatString(640, 40, GetColor(255, 255, 255), "Player State : Idling");
 }
