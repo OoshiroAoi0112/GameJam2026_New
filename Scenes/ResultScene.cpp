@@ -3,6 +3,7 @@
 #include "DxLib.h"
 #include "../Utility/ResourceManager.h"
 #include "../Utility/GameDataManager.h"
+#include "../Utility/DrawNumber.h"
 
 #include <string>
 
@@ -11,7 +12,6 @@ int Result_score;
 //int score = 1500;
 int ResultBgmHandle;
 int ResultBgmHandle1;
-
 bool flag;
 float time;
 bool isBgmPlayed = false;
@@ -33,8 +33,6 @@ ResultScene::ResultScene() : score_animation(), image()
 	Brank_animation = rm->GetImages("Resource/image/Result/player_b_anim.png", 2, 2, 1, 250, 397);  // Bランク用アニメーション
 	Crank_animation = rm->GetImages("Resource/image/Result/player_c_anim.png", 2, 2, 1, 250, 406);  // Cランク用アニメーション
 	score_animation = rm->GetImages("Resource/image/Result/Score.png", 3, 3, 1, 200, 200);
-	// 数字画像（0～9）の読み込み
-	num_image = rm->GetImages("Resource/image/Result/number.png");
 
 	Result_score = score_animation[0];
 
@@ -59,6 +57,10 @@ void ResultScene::Initialize()
 
 	// インゲームからスコアを取得
 	score = GameDataManager::GetInstance().GetScore();
+
+	DrawNumber::SetImage(
+		ResourceManager::GetInstance()->GetImages("Resource/image/Result/number.png")
+	);
 }
 
 eSceneType ResultScene::Update(const float& delta_second)
@@ -131,7 +133,7 @@ void ResultScene::Draw() const
 		DrawGraph(760, 220, Result_score, TRUE);
 	}
 	// スコアの描画
-	DrawNumber(680, 280, score, 1.0f);
+	DrawNumber::Draw(680, 280, score, 1.0f);
 }
 
 void ResultScene::Finalize()
@@ -194,44 +196,5 @@ void ResultScene::ResultBgm()
 		PlaySoundMem(ResultBgmHandle1, DX_PLAYTYPE_BACK);
 		ChangeVolumeSoundMem(250, ResultBgmHandle1);  // 音量調整
 		isBgmPlayed = true;
-	}
-}
-
-// 指定位置に数値を画像で描画する
-void ResultScene::DrawNumber(int x, int y, int number, float scale) const
-{
-	if (num_image.empty()) return;
-
-	int image_width, image_height;
-	GetGraphSize(num_image[0], &image_width, &image_height);
-
-	int digit_width = image_width / 10;
-	int digit_height = image_height;
-
-	std::string numStr = std::to_string(number);
-
-	// 総幅を計算
-	int total_width = static_cast<int>(numStr.length() * digit_width * scale);
-
-	// 右詰め用の開始位置
-	int startX = x - total_width;
-
-	for (size_t i = 0; i < numStr.length(); ++i)
-	{
-		int digit = numStr[i] - '0';
-
-		int srcX = digit * digit_width;
-
-		int drawX = startX + static_cast<int>(i * digit_width * scale);
-
-		DrawRectExtendGraph(
-			drawX, y,
-			drawX + static_cast<int>(digit_width * scale),
-			y + static_cast<int>(digit_height * scale),
-			srcX, 0,
-			digit_width, digit_height,
-			num_image[0],
-			TRUE
-		);
 	}
 }
