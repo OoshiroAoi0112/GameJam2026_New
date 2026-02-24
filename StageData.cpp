@@ -3,7 +3,6 @@
 #include "Utility/ResourceManager.h"
 #include "Objects/Enemy/Enemy.h"
 #include "Objects/Item/Item.h"
-#include "Objects/Santa/Santa.h"
 #include "Objects/Block/Block.h"
 #include "Utility/Vector2D.h"
 #include "DxLib.h"
