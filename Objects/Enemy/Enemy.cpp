@@ -56,7 +56,7 @@ void Enemy::Update(float delta_second)
         AnimeCount(delta_second);
 
         // 移動
-        //location.x += direction * speed * delta_second;
+        location.x += direction * speed * delta_second;
 
         // 右端
         if (location.x >= start_x + move_range)
@@ -146,7 +146,6 @@ void Enemy::OnHitCollision(GameObject* hit_object)
     {
         // プレイヤーに当たったときの処理
         angle = 0.4;  //エネミーの角度を少し傾けてのけぞるようにする
-
         // ノックバック
         location.x += direction * -50.0f;
 
