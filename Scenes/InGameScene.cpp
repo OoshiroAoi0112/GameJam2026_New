@@ -100,7 +100,7 @@ eSceneType InGameScene::Update(const float& delta_second)
 		image_flag = false;
 	}
 
-	// 少し遅らせてアイテムを生成する
+	 //少し遅らせてアイテムを生成する
 	if (delay_flag == true && item_spawned == false)
 	{
 		for (const Vector2D& pos : stage_data.GetItemSpawnPositions())
@@ -154,7 +154,7 @@ void InGameScene::Draw() const
 	// スコアの描画
 	auto& mg = GameDataManager::GetInstance();
 	int score = mg.GetScore();
-	DrawNumber::Draw(200, 100, score, 0.7f);
+	DrawNumber::Draw(200, 0, score, 0.5f);
 
 	StageData* stage = StageData::GetInstance();
 	stage->Draw(screen_offset);
