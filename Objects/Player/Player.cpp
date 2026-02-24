@@ -16,7 +16,8 @@ Player::Player() :
 	wall_left_x(0.0f),
 	on_ground(false),
 	state(nullptr),
-	next_state(ePlayerState::NONE)
+	next_state(ePlayerState::NONE),
+	dead(false)
 {
 	
 }
@@ -50,6 +51,8 @@ void Player::Initialize()
 
 
 	box_size = Vector2D(D_OBJECT_SIZE * 2, D_OBJECT_SIZE * 3);
+
+	dead = false;
 }
 
 void Player::Update(float delta_second)
@@ -159,9 +162,7 @@ void Player::Movement(float delta_second)
 
 	if (location.y >= 640.0f)
 	{
-		location.y = 640.0f;
-		velocity.y = 0.0f;
-		on_ground = true;
+		dead = true;
 	}
 }
 
@@ -350,5 +351,10 @@ const Vector2D& Player::GetVelocity() const
 void Player::SetScroll(float scrollX)
 {
 	scroll = scrollX;
+}
+
+bool Player::GetDeadFlag()
+{
+	return dead;
 }
 
