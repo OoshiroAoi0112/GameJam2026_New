@@ -20,7 +20,7 @@ void ClearState::Update(float delta_second)
 {
 }
 
-void ClearState::Draw() const
+void ClearState::Draw(const Vector2D& screen_offset) const
 {
 }
 

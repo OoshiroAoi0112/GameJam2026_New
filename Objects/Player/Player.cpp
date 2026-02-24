@@ -88,7 +88,7 @@ void Player::Draw(const Vector2D& screen_offset) const
 		TRUE
 	);
 
-	state->Draw();
+	state->Draw(screen_offset);
 
 	/*DrawBox(location.x + box_size.x / 2, location.y + box_size.y / 2,
 		location.x - box_size.x / 2, location.y - box_size.y / 2,

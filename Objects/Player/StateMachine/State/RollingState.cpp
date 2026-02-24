@@ -74,13 +74,13 @@ void RollingState::Update(float delta_second)
 	angle += (player->velocity.x * 0.001f);
 }
 
-void RollingState::Draw() const
+void RollingState::Draw(const Vector2D& screen_offset) const
 {
-	//座標情報を整数値に変換
-	int x = 0, y = 0;
-	player->GetLocation().ToInt(&x, &y);
+	// 画面に描画する座標（←ここが超重要）
+	int drawX = static_cast<int>(player->location.x + screen_offset.x);
+	int drawY = static_cast<int>(player->location.y + screen_offset.y);
 
-	DrawRotaGraph(x, y, 0.06f, angle, rolling_image, TRUE);
+	DrawRotaGraph(drawX, drawY + 20, 0.06, angle, rolling_image, TRUE);
 }
 
 void RollingState::Finalize()

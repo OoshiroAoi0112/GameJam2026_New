@@ -59,13 +59,13 @@ void IdlingState::Update(float delta_second)
 	}
 }
 
-void IdlingState::Draw() const
+void IdlingState::Draw(const Vector2D& screen_offset) const
 {
-	//座標情報を整数値に変換
-	int x = 0, y = 0;
-	player->GetLocation().ToInt(&x, &y);
+	// 画面に描画する座標（←ここが超重要）
+	int drawX = static_cast<int>(player->location.x + screen_offset.x);
+	int drawY = static_cast<int>(player->location.y + screen_offset.y);
 
-	DrawRotaGraph(x, y, 0.4, 0, idling_image, TRUE);
+	DrawRotaGraph(drawX,drawY, 0.4, 0, idling_image, TRUE);
 
 	DrawFormatString(640, 40, GetColor(255, 255, 255), "Player State : Idling");
 }

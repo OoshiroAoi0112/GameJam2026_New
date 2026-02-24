@@ -30,7 +30,7 @@ void JumpingState::Update(float delta_second)
 	}
 }
 
-void JumpingState::Draw() const
+void JumpingState::Draw(const Vector2D& screen_offset) const
 {
 	//À•Wî•ñ‚ğ®”’l‚É•ÏŠ·
 	int x = 0, y = 0;

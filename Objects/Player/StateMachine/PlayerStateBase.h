@@ -1,5 +1,6 @@
 #pragma once
 #include "Enum/PlayerState.h"
+#include "../../../Utility/Vector2D.h"
 
 class PlayerStateBase
 {
@@ -17,7 +18,7 @@ public:
 public:
 	virtual void Initialize() = 0;
 	virtual void Update(float delta_second) = 0;
-	virtual void Draw()const = 0;
+	virtual void Draw(const Vector2D& screen_offset) const = 0;
 	virtual void Finalize() = 0;
 	virtual void Animation(float delta_second) = 0;
 
