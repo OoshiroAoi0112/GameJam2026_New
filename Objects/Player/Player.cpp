@@ -70,13 +70,27 @@ void Player::Update(float delta_second)
 
 void Player::Draw(const Vector2D& screen_offset) const
 {
-	DrawBox(location.x + 10, location.y + 10,
-		location.x - 10, location.y - 10,
-		GetColor(255, 255, 255), TRUE);
+	// プレイヤーサイズ
+	const int width = 32;
+	const int height = 64;
 
-	DrawBox(location.x + box_size.x / 2, location.y + box_size.y / 2,
+	// 画面に描画する座標（←ここが超重要）
+	int drawX = static_cast<int>(location.x + screen_offset.x);
+	int drawY = static_cast<int>(location.y + screen_offset.y);
+
+	// プレイヤーを箱で描画
+	DrawBox(
+		drawX,
+		drawY,
+		drawX + width,
+		drawY + height,
+		GetColor(255, 0, 0),
+		TRUE
+	);
+
+	/*DrawBox(location.x + box_size.x / 2, location.y + box_size.y / 2,
 		location.x - box_size.x / 2, location.y - box_size.y / 2,
-		GetColor(255, 0, 0), FALSE);
+		GetColor(255, 0, 0), FALSE);*/
 	
 	DrawFormatString(400, 50, GetColor(255, 255, 255), "PlayerLocationY: %f", location.y);
 	DrawFormatString(0, 100, GetColor(255, 255, 255), "scroll = %f", scroll);
@@ -113,14 +127,6 @@ void Player::Movement(float delta_second)
 		if (location.x >= 1270.0f)
 		{
 			location.x = 1270.0f;
-		}
-	}
-	else
-	{
-		// 通常（中央固定）
-		if (velocity.x > 0 && location.x >= 1280.0f / 2)
-		{
-			location.x = 1280.0f / 2;
 		}
 	}
 

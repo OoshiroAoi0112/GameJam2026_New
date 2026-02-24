@@ -201,17 +201,17 @@ void StageData::Draw(const Vector2D& screen_offset) const
     // 雪だるま用
     for (const auto& pos : snowman_positions)
     {
-        DrawGraph((int)(pos.x + velocity.x),(int)pos.y,snowman_image,TRUE);
+        DrawGraph(static_cast<int>(pos.x + screen_offset.x),static_cast<int>(pos.y + screen_offset.y),snowman_image,TRUE);
     }
     // 街並み用
     for (const auto& pos : city_positions)
     {
-        DrawGraph((int)(pos.x + velocity.x), (int)pos.y, city_image, TRUE);
+        DrawGraph(static_cast<int>(pos.x + screen_offset.x),static_cast<int>(pos.y + screen_offset.y),city_image,TRUE);
     }
     // 枯れ木用
     for (const auto& pos : tree_positions)
     {
-        DrawGraph((int)(pos.x + velocity.x), (int)pos.y, tree_image, TRUE);
+        DrawGraph(static_cast<int>(pos.x + screen_offset.x),static_cast<int>(pos.y + screen_offset.y),tree_image,TRUE);
     }
     // ゴール地点のハウス
     for (const auto& pos : house_positions)
