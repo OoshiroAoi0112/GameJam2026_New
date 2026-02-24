@@ -35,13 +35,16 @@ void Item::Initialize()
 	collision.radius = D_OBJECT_SIZE / 2.0f;
 
 	z_layer = 5;
-	box_size = Vector2D(32, 32);
+	box_size = Vector2D(32, 50);
 }
 
 void Item::Update(float delta_second)
 {
 	AnimeCount(delta_second);
+	collision.radius = box_size.x / 2;
 
+	collision.point[0] = location + Vector2D(0, -box_size.y / 2 + collision.radius);
+	collision.point[1] = location + Vector2D(0, box_size.y / 2 - collision.radius);
 }
 
 void Item::Draw(const Vector2D& screen_offset) const
@@ -66,6 +69,14 @@ void Item::Draw(const Vector2D& screen_offset) const
 		"ItemX = %.2f",
 		drawX
 	);
+
+	// ìñÇΩÇËîªíËâ¬éãâª
+	Vector2D p0 = collision.point[0] + screen_offset;
+	Vector2D p1 = collision.point[1] + screen_offset;
+
+	// è„â∫ÇÃâ~
+	DrawCircle(p0.x, p0.y, collision.radius, GetColor(0, 0, 255), FALSE);
+	DrawCircle(p1.x, p1.y, collision.radius, GetColor(0, 0, 255), FALSE);
 
 }
 
