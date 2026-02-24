@@ -104,8 +104,8 @@ eSceneType TitleScene::Update(const float& delta_second)
 			{
 			case 0:
 				return eSceneType::eInGame;
-			case 1:
-				return eSceneType::eHelp;
+			/*case 1:
+				return eSceneType::eHelp;*/
 			case 2:
 				return eSceneType::eEnd;
 			}
