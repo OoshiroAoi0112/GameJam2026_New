@@ -38,5 +38,7 @@ public:
 
 	const Vector2D& GetScreenOffset() const;
 
+private:
+	void IngameBgm();
 };
 
