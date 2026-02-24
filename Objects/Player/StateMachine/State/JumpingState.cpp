@@ -41,6 +41,10 @@ void JumpingState::Finalize()
 {
 }
 
+void JumpingState::Animation(float delta_second)
+{
+}
+
 ePlayerState JumpingState::GetState() const
 {
 	return ePlayerState::JUMP;

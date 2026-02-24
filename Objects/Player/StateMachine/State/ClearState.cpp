@@ -28,6 +28,10 @@ void ClearState::Finalize()
 {
 }
 
+void ClearState::Animation(float delta_second)
+{
+}
+
 ePlayerState ClearState::GetState() const
 {
 	return ePlayerState::CLEAR;

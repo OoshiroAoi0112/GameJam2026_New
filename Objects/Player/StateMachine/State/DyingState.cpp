@@ -28,6 +28,10 @@ void DyingState::Finalize()
 {
 }
 
+void DyingState::Animation(float delta_second)
+{
+}
+
 ePlayerState DyingState::GetState() const
 {
 	return ePlayerState::DIE;

@@ -28,7 +28,7 @@ public:
 	void Finalize() override;
 
 	// “–‚½‚è”»’è’Ê’mˆ—
-	void OnHitCollision(const GameObject* hit_object) override;
+	void OnHitCollision(GameObject* hit_object) override;
 	//ˆÊ’uî•ñæ“¾ˆ—
 	const Vector2D& GetLocation() const;
 	//ˆÊ’uî•ñİ’èˆ—

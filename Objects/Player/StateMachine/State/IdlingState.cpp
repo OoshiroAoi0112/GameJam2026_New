@@ -60,6 +60,10 @@ void IdlingState::Finalize()
 {
 }
 
+void IdlingState::Animation(float delta_second)
+{
+}
+
 ePlayerState IdlingState::GetState() const
 {
 	return ePlayerState::IDLE;

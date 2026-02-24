@@ -23,6 +23,11 @@ private:
 	InGameScene* ingame_s;  //ゲームメインの情報
 	float gravity;        // 重力
 	float scroll;  //スクロール値
+
+	// ----- 地面との当たり判定のための変数 ----- //
+	Vector2D prev_location; // 前フレームの位置
+	bool has_ground_candidate; // 地面候補があるかどうか
+	float ground_top_y; // 地面候補の上端のY座標
 	
 	class PlayerStateBase* state;
 	ePlayerState next_state;  // 次の状態
@@ -50,13 +55,13 @@ public:
 	void Finalize() override;
 	// 移動処理
 	void Movement(float delta_second);
-	// アニメーション処理
-	virtual void Animation(float delta_second);
 	// 状態遷移処理
 	void SetNextState(ePlayerState state);
 
 	// 当たり判定通知処理
-	void OnHitCollision(const GameObject* hit_object) override;
+	void OnHitCollision(GameObject* hit_object) override;
+
+	void PostCollision(float delta_second) override;
 
 	//位置情報取得処理
 	Vector2D& GetLocation() override;

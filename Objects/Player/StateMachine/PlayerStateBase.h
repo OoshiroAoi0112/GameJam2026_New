@@ -19,6 +19,7 @@ public:
 	virtual void Update(float delta_second) = 0;
 	virtual void Draw()const = 0;
 	virtual void Finalize() = 0;
+	virtual void Animation(float delta_second) = 0;
 
 	virtual ePlayerState GetState() const = 0;
 };

@@ -16,5 +16,7 @@ public:
 
 	virtual void Finalize() override;
 
+	virtual void Animation(float delta_second) override;
+
 	virtual ePlayerState GetState()const override;
 };

@@ -149,7 +149,7 @@ void Enemy::AnimeCount(float delta_second)
     }
 }
 
-void Enemy::OnHitCollision(const GameObject* hit_object)
+void Enemy::OnHitCollision(GameObject* hit_object)
 {
     if (hit_object->GetCollision().IsCheckHitTarget(eObjectType::block))
     {

@@ -90,22 +90,71 @@ public:
 		}
 
 		//当たり判定確認処理
+		//当たり判定確認処理
 		for (int i = 0; i < object_list.size(); i++)
 		{
-			if (eMobilityType::Stationary == object_list[i]->GetMobility())
+			for (int j = i + 1; j < object_list.size(); j++)
 			{
-				continue;
-			}
+				auto* a = object_list[i];
+				auto* b = object_list[j];
 
-			for (int j = 0; j < object_list.size(); j++)
-			{
-				if (i == j)
+				const auto typeA = a->GetCollision().object_type;
+				const auto typeB = b->GetCollision().object_type;
+
+				// --- 必要なペアだけ許可する ---
+				const bool player_block =
+					(typeA == eObjectType::player && typeB == eObjectType::block) ||
+					(typeA == eObjectType::block && typeB == eObjectType::player);
+
+				const bool enemy_block =
+					(typeA == eObjectType::enemy && typeB == eObjectType::block) ||
+					(typeA == eObjectType::block && typeB == eObjectType::enemy);
+
+				const bool item_block =
+					(typeA == eObjectType::item && typeB == eObjectType::block) ||
+					(typeA == eObjectType::block && typeB == eObjectType::item);
+
+				const bool player_enemy =
+					(typeA == eObjectType::player && typeB == eObjectType::enemy) ||
+					(typeA == eObjectType::enemy && typeB == eObjectType::player);
+
+				const bool player_item =
+					(typeA == eObjectType::player && typeB == eObjectType::item) ||
+					(typeA == eObjectType::item && typeB == eObjectType::player);
+
+				// ★追加：player * gool
+				const bool player_gool =
+					(typeA == eObjectType::player && typeB == eObjectType::gool) ||
+					(typeA == eObjectType::gool && typeB == eObjectType::player);
+
+				if (!player_block && !enemy_block && !item_block &&
+					!player_enemy && !player_item && !player_gool)
 				{
 					continue;
 				}
 
-				CheckCollision(object_list[i], object_list[j]);
+				// --- CheckCollision の順序を揃える（おすすめ） ---
+				// block系は「動く側 -> block」
+				if (typeA == eObjectType::block)
+				{
+					CheckCollision(b, a); // mover, block
+				}
+				// playerとの接触は「player -> 相手」（enemy/item/gool）
+				else if (typeB == eObjectType::player && typeA != eObjectType::block)
+				{
+					CheckCollision(b, a); // player, other
+				}
+				else
+				{
+					CheckCollision(a, b);
+				}
 			}
+		}
+
+		//当たり判定後の処理
+		for (GameObject* obj : object_list)
+		{
+			obj->PostCollision(delta_second);
 		}
 
 		//破棄リスト内が空出はない場合、リスト内のオブジェクトを破棄する
@@ -179,7 +228,19 @@ public:
 	/// <param name="partner">2つ目のゲームオブジェクト</type param>
 	virtual void CheckCollision(GameObject* target, GameObject* partner)
 	{
+		//2つのオブジェクトの距離を取得
+		Vector2D diff = target->GetLocation() - partner->GetLocation();
 
+		//2つのオブジェクトの当たり判定の大きさを取得
+		Vector2D box_size = (target->GetBoxSize() + partner->GetBoxSize()) / 2.0f;
+
+		//距離より大きさが大きい場合、Hit判定とする
+		if ((fabsf(diff.x) < box_size.x) && (fabsf(diff.y) < box_size.y))
+		{
+			//当たったことをオブジェクトに通知する
+			target->OnHitCollision(partner);
+			//partner->OnHitCollision(target);
+		}
 	}
 	/// <summary>
 	/// ゲームオブジェクト生成処理

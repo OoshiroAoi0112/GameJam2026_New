@@ -85,7 +85,7 @@ void Item::Finalize()
 
 }
 
-void Item::OnHitCollision(const GameObject* hit_object)
+void Item::OnHitCollision(GameObject* hit_object)
 {
 	if (hit_object->GetCollision().IsCheckHitTarget(eObjectType::player))
 	{

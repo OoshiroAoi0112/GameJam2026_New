@@ -4,7 +4,10 @@
 
 #include "DxLib.h"
 
-Block::Block()
+Block::Block() :
+	image(0),
+	type(BlockType::Snow),
+	start_x(0)
 {
     image = LoadGraph("Resource/image/Block/snow.png");
 }
@@ -66,7 +69,7 @@ void Block::Finalize()
 }
 
 
-void Block::OnHitCollision(const GameObject* hit_object)
+void Block::OnHitCollision(GameObject* hit_object)
 {
     if (hit_object->GetCollision().IsCheckHitTarget(eObjectType::enemy))
     {

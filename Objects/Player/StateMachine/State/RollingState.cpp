@@ -73,6 +73,10 @@ void RollingState::Finalize()
 {
 }
 
+void RollingState::Animation(float delta_second)
+{
+}
+
 ePlayerState RollingState::GetState() const
 {
 	return ePlayerState::ROLL;

@@ -42,12 +42,16 @@ public:
 
 public:
 	// “–‚½‚è”»’è’Ê’mˆ—
-	virtual void OnHitCollision(const GameObject* hit_object);
+	virtual void OnHitCollision(GameObject* hit_object);
+
+	virtual void PostCollision(float delta_second);
 
 	// À•W‚ğæ“¾
 	virtual Vector2D& GetLocation();
 	// “–‚½‚è”»’è‚ğæ“¾
 	const CapsuleCollision& GetCollision() const;
+	// “–‚½‚è”»’è‚Ì‘å‚«‚³‚ğæ“¾
+	virtual Vector2D GetBoxSize() const;
 	// •`‰æ‚Ì—Dæ‡ˆÊ‚ğæ“¾
 	const int GetZLayer() const;
 	// ‰Â“®«‚ğæ“¾
