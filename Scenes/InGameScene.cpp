@@ -184,9 +184,10 @@ void InGameScene::Draw() const
 
 	//DrawFormatString(0, 40, GetColor(255, 255, 255),
 	//	"PlayerLocationY: %.2f", player->GetLocation().y);
-
-	//DrawFormatString(1100, 40, GetColor(255, 255, 255),
-	//	"delay: %d", delay);
+	auto& mg = GameDataManager::GetInstance();
+	int score = mg.GetScore();
+	DrawFormatString(1100, 440, GetColor(255, 255, 255),
+		"score: %d", score);
 
 	__super::Draw();
 }

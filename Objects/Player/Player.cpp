@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "DxLib.h"
+#include "../../Utility/GameDataManager.h"
 
 Player::Player() :
 	input(nullptr),
@@ -179,13 +180,20 @@ void Player::OnHitCollision(GameObject* hit_object)
 			has_ground_candidate = true;
 		}
 	}
-	else if(hit_object->GetCollision().IsCheckHitTarget(eObjectType::enemy))
+	else if(hit_object->GetCollision().object_type == eObjectType::enemy)
 	{
 		// “G‚É“–‚½‚Á‚½‚Æ‚«‚Ìˆ—
+		owner_scene->DestroyObject(hit_object);
+
 	}
-	else if(hit_object->GetCollision().IsCheckHitTarget(eObjectType::item))
+	else if(hit_object->GetCollision().object_type == eObjectType::item)
 	{
 		// ƒAƒCƒeƒ€‚É“–‚½‚Á‚½‚Æ‚«‚Ìˆ—
+		owner_scene->DestroyObject(hit_object);
+		auto& mg = GameDataManager::GetInstance();
+		int score = mg.GetScore();
+		score += 10;
+		mg.SetScore(score);
 	}
 	else if(hit_object->GetCollision().IsCheckHitTarget(eObjectType::gool))
 	{
