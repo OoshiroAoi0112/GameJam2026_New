@@ -26,7 +26,7 @@ public:
 
 	virtual void Update(float delta_second) override;
 
-	virtual void Draw()const override;
+	virtual void Draw(const Vector2D& screen_offset) const override;
 
 	virtual void Finalize() override;
 

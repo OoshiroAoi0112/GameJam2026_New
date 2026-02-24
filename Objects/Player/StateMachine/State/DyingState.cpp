@@ -20,7 +20,7 @@ void DyingState::Update(float delta_second)
 {
 }
 
-void DyingState::Draw() const
+void DyingState::Draw(const Vector2D& screen_offset) const
 {
 }
 
