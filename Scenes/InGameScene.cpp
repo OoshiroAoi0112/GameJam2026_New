@@ -54,8 +54,9 @@ void InGameScene::Initialize()
 	santa_image = LoadGraph("Resource/image/santa_start.png");
 	present_image = LoadGraph("Resource/image/present.png");
 
-	player = CreateObject<Player>(Vector2D(100, 100));
 	stage_data.Load();
+
+	player = CreateObject<Player>(Vector2D(100, 550));
 
 	//エネミーの生成
 	for (const Vector2D& pos : stage_data.GetEnemySpawnPositions())
@@ -173,6 +174,22 @@ void InGameScene::Draw() const
 void InGameScene::Finalize()
 {
 	StopSoundMem(IngameBgmHandle);
+
+	//動的配列が空なら処理を終了する
+	if (object_list.empty())
+	{
+		return;
+	}
+
+	//各オブジェクトを削除する
+	for (GameObject* obj : object_list)
+	{
+		obj->Finalize();
+		delete obj;
+	}
+
+	//動的配列の解放
+	object_list.clear();
 }
 
 const eSceneType InGameScene::GetNowSceneType() const
