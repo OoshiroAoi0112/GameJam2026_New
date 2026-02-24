@@ -15,6 +15,7 @@ bool delay_flag;
 bool image_flag;
 bool item_spawned;
 int speed;
+int score;
 int score_animation[10];
 
 InGameScene::InGameScene()
@@ -47,6 +48,7 @@ void InGameScene::Initialize()
 	present_image = LoadGraph("Resource/image/present.png");
 
 	player = CreateObject<Player>(Vector2D(100, 100));
+	score = 3500;
 	stage_data.Load();
 
 	//エネミーの生成
@@ -120,11 +122,12 @@ eSceneType InGameScene::Update(const float& delta_second)
 	if (screen_offset.x < min_offset)
 	{
 		screen_offset.x = min_offset;
+	}
 
+	//// リザルト画面に遷移する
+	if (screen_offset.x <= -4540 && player->GetLocation().x >850)
+	{
 		goal_flag = true;
-
-		auto& mg = GameDataManager::GetInstance();
-		int score = mg.GetScore();
 
 		GameDataManager::GetInstance().SetScore(score);  //スコア値の取得
 		return eSceneType::eResult;
@@ -154,13 +157,18 @@ void InGameScene::Draw() const
 		DrawRotaGraph(200 + delay, 100, 1.0, 0.0, santa_image, TRUE);
 	}
 	
-	////デバッグ用
-	//DrawFormatString(10, 50, GetColor(255, 255, 255),
-	//	"offset.x = %.2f", screen_offset.x);
+	//デバッグ用
+	DrawFormatString(10, 50, GetColor(255, 255, 255),
+		"offset.x = %.2f", screen_offset.x);
 
-	//DrawFormatString(0, 0, GetColor(255, 255, 255),
-	//	"PlayerLocationX: %.2f", player->GetLocation().x);
+	DrawFormatString(0, 0, GetColor(255, 255, 255),
+		"PlayerLocationX: %.2f", player->GetLocation().x);
 
+	//DrawFormatString(0, 20, GetColor(255, 255, 255),
+	//	"PlayerVelocityX: %.2f", player->GetVelocity().x);
+
+	//DrawFormatString(0, 40, GetColor(255, 255, 255),
+	//	"PlayerLocationY: %.2f", player->GetLocation().y);
 	auto& mg = GameDataManager::GetInstance();
 	int score = mg.GetScore();
 	DrawFormatString(1100, 440, GetColor(255, 255, 255),
