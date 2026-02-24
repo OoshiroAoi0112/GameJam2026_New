@@ -41,6 +41,5 @@ public:
 
 private:
 	void ResultBgm();
-	void DrawNumber(int x, int y, int number, float scale) const;        // ƒXƒRƒA‚ğ‰æ‘œ‚Å•`‰æ
 };
 
