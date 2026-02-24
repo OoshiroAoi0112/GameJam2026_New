@@ -2,27 +2,34 @@
 
 #include "../PlayerStateBase.h"
 
+class Player;
+class IdlingState;
+class RollingState;
+class JumpingState;
+class ClearState;
+class DyingState;
+
 class PlayerStateFactory
 {
 private:
-	static PlayerStateFactory* instance;
+    static PlayerStateFactory* instance;
 
 private:
-	PlayerStateFactory() = default;
-	~PlayerStateFactory() = default;	
-	PlayerStateFactory& operator=(const PlayerStateFactory&) = delete;
+    PlayerStateFactory() = default;
+    ~PlayerStateFactory() = default;
+    PlayerStateFactory& operator=(const PlayerStateFactory&) = delete;
 
 private:
-	class IdlingState* idle;
-	class RollingState* roll;
-	class JumpingState* jump;
-	class ClearState* clear;
-	class DyingState* die;
+    IdlingState* idle = nullptr;
+    RollingState* roll = nullptr;
+    JumpingState* jump = nullptr;
+    ClearState* clear = nullptr;
+    DyingState* die = nullptr;
+
+private:
+    void Initialize(Player& player);
 
 public:
-	void Initialize(class Player& player);
-
-public:
-	static PlayerStateBase* Get(class Player& player, ePlayerState type);
-	static void Finalize();
+    static PlayerStateBase* Get(Player& player, ePlayerState type);
+    static void Finalize();
 };
