@@ -71,7 +71,7 @@ void RollingState::Update(float delta_second)
 		player->SetNextState(ePlayerState::JUMP);
 	}
 
-	angle += (player->velocity.x * 0.001f);
+	angle += (player->velocity.x * 0.0001f);
 }
 
 void RollingState::Draw(const Vector2D& screen_offset) const

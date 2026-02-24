@@ -56,20 +56,6 @@ void Item::Draw(const Vector2D& screen_offset) const
 
 	DrawRotaGraph(drawX, drawY - 8, 1.0, 0.0, item_image, TRUE);
 
-	DrawFormatString(
-		1000, 70,
-		GetColor(255, 255, 255),
-		"enemu_location.x = %.2f",
-		location.x
-	);
-
-	DrawFormatString(
-		1000, 100,
-		GetColor(255, 255, 255),
-		"ItemX = %.2f",
-		drawX
-	);
-
 	// “–‚½‚è”»’è‰Â‹‰»
 	Vector2D p0 = collision.point[0] + screen_offset;
 	Vector2D p1 = collision.point[1] + screen_offset;
@@ -89,8 +75,6 @@ void Item::OnHitCollision(GameObject* hit_object)
 {
 	if (hit_object->GetCollision().IsCheckHitTarget(eObjectType::player))
 	{
-		// ƒvƒŒƒCƒ„[‚É“–‚½‚Á‚½‚Æ‚«‚Ìˆ—
-		printfDx("Player Hit!\n");
 		delete_flag = true;
 	}
 }

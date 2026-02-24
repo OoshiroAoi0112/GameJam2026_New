@@ -6,6 +6,7 @@
 #include "../Objects/Item/Item.h"
 #include "../Objects/Block/Block.h"
 #include "../Utility/GameDataManager.h"
+#include "../Utility/DrawNumber.h"
 #include "DxLib.h"
 
 #include <string>
@@ -41,6 +42,10 @@ void InGameScene::Initialize()
 	delay_flag = false;
 	image_flag = true;
 	item_spawned = false;
+
+	DrawNumber::SetImage(
+		ResourceManager::GetInstance()->GetImages("Resource/image/Result/number.png")
+	);
 
 	background_image = LoadGraph("Resource/image/sky.png");
 	santa_image = LoadGraph("Resource/image/santa_start.png");
@@ -141,7 +146,11 @@ void InGameScene::Draw() const
 {
 	DrawGraph(0,0,background_image,true);
 	__super::Draw();
-	
+
+	// スコアの描画
+	auto& mg = GameDataManager::GetInstance();
+	int score = mg.GetScore();
+	DrawNumber::Draw(200, 100, score, 0.7f);
 
 	StageData* stage = StageData::GetInstance();
 	stage->Draw(screen_offset);
@@ -153,18 +162,6 @@ void InGameScene::Draw() const
 		if (delay >= 530)DrawRotaGraph(640, 80 + speed, 1.0, 0.0, present_image, TRUE);
 		DrawRotaGraph(200 + delay, 100, 1.0, 0.0, santa_image, TRUE);
 	}
-	
-	////デバッグ用
-	//DrawFormatString(10, 50, GetColor(255, 255, 255),
-	//	"offset.x = %.2f", screen_offset.x);
-
-	//DrawFormatString(0, 0, GetColor(255, 255, 255),
-	//	"PlayerLocationX: %.2f", player->GetLocation().x);
-
-	auto& mg = GameDataManager::GetInstance();
-	int score = mg.GetScore();
-	DrawFormatString(1100, 440, GetColor(255, 255, 255),
-		"score: %d", score);
 
 	__super::Draw();
 }

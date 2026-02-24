@@ -27,6 +27,7 @@
     <ClCompile Include="Objects\Player\StateMachine\State\ClearState.cpp" />
     <ClCompile Include="Objects\Block\Block.cpp" />
     <ClCompile Include="Utility\GameDataManager.cpp" />
+    <ClCompile Include="Utility\DrawNumber.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource">
@@ -71,5 +72,6 @@
     <ClInclude Include="Objects\Player\StateMachine\State\ClearState.h" />
     <ClInclude Include="Objects\Block\Block.h" />
     <ClInclude Include="Utility\GameDataManager.h" />
+    <ClInclude Include="Utility\DrawNumber.h" />
   </ItemGroup>
 </Project>

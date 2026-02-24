@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SceneBase.h"
+#include "../Utility/DrawNumber.h"
 #include <vector>
 
 class ResultScene : public SceneBase
@@ -23,7 +24,7 @@ private:
 	std::vector<int> Brank_animation;   //Bランクのアニメーション
 	std::vector<int> Crank_animation;   //Cランクのアニメーション
 	std::vector<int> score_animation;   //スコアのアニメーション
-	std::vector<int> num_image; // 数字用画像
+	std::vector<int> num_image;  //数字用アニメーション
 public:
 
 	ResultScene();
@@ -41,6 +42,5 @@ public:
 
 private:
 	void ResultBgm();
-	void DrawNumber(int x, int y, int number, float scale) const;        // スコアを画像で描画
 };
 
