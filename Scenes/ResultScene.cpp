@@ -112,7 +112,7 @@ void ResultScene::Draw() const
 			DrawGraph(760, 220, Result_score, TRUE);
 			DrawRotaGraph(315, 590, 0.1, 0, santa1_image, TRUE, 0);
 		}
-		else if (score > 1000)
+		else if (score > 2000)
 		{
 			Result_score = score_animation[1];
 			DrawGraph(760, 220, Result_score, TRUE);
