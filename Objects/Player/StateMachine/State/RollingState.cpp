@@ -3,12 +3,22 @@
 #include "DxLib.h"
 #include "../../../../Utility/InputControl.h"
 #include "../../Player.h"
+#include "../../../../Utility/ResourceManager.h"
+#include "../../../../Utility/Vector2D.h"
 #include <math.h>
 
 RollingState::RollingState(class Player* p) :
+	rolling_animation(),
 	PlayerStateBase(p),
+	rolling_animation_count(0),
+	rolling_animation_time(0.0f),
 	input(nullptr)
 {
+	start_x = 0;
+
+	ResourceManager* rm = ResourceManager::GetInstance();
+	rolling_animation = rm->GetImages("Resource/image/Player/Normal/Rolling/Normal_Rolling_3.png", 1, 1, 1, 200, 200);
+	rolling_image = rolling_animation[0];
 }
 
 RollingState::~RollingState()
@@ -60,6 +70,8 @@ void RollingState::Update(float delta_second)
 	{
 		player->SetNextState(ePlayerState::JUMP);
 	}
+
+	angle += (player->velocity.x * 0.001f);
 }
 
 void RollingState::Draw() const
@@ -67,14 +79,28 @@ void RollingState::Draw() const
 	//À•Wî•ñ‚ð®”’l‚É•ÏŠ·
 	int x = 0, y = 0;
 	player->GetLocation().ToInt(&x, &y);
+
+	DrawRotaGraph(x, y, 0.06f, angle, rolling_image, TRUE);
 }
 
 void RollingState::Finalize()
 {
+	
 }
 
 void RollingState::Animation(float delta_second)
 {
+	rolling_animation_time += delta_second;
+	if (rolling_animation_time >= 0.5f)
+	{
+		rolling_animation_time = 0.0f;
+		rolling_animation_count++;
+		if (rolling_animation_count >= rolling_animation.size())
+		{
+			rolling_animation_count = 0;
+		}
+		rolling_image = rolling_animation[rolling_animation_count];
+	}
 }
 
 ePlayerState RollingState::GetState() const
