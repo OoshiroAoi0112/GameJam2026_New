@@ -103,14 +103,6 @@ void Enemy::Draw(const Vector2D& screen_offset) const
         direction == 1
     );
 
-    // 当たり判定（デバッグ）
-    Vector2D p0 = collision.point[0] + screen_offset;
-    Vector2D p1 = collision.point[1] + screen_offset;
-
-    DrawCircle(p0.x, p0.y, collision.radius, GetColor(0, 0, 255), FALSE);
-    DrawCircle(p1.x, p1.y, collision.radius, GetColor(0, 0, 255), FALSE);
-    DrawLine(p0.x, p0.y, p1.x, p1.y, GetColor(0, 0, 255));
-
 }
 
 void Enemy::Finalize()

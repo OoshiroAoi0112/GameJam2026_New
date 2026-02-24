@@ -82,24 +82,9 @@ void Player::Draw(const Vector2D& screen_offset) const
 	int drawX = static_cast<int>(location.x + screen_offset.x);
 	int drawY = static_cast<int>(location.y + screen_offset.y);
 
-	// ƒvƒŒƒCƒ„[‚ð” ‚Å•`‰æ
-	DrawBox(
-		drawX,
-		drawY,
-		drawX + width,
-		drawY + height,
-		GetColor(255, 0, 0),
-		TRUE
-	);
 
 	state->Draw(screen_offset);
 
-	DrawBox(drawX + box_size.x / 2, drawY + box_size.y / 2,
-		drawX - box_size.x / 2, drawY - box_size.y / 2,
-		GetColor(255, 0, 0), FALSE);
-	
-	DrawFormatString(400, 50, GetColor(255, 255, 255), "PlayerLocationY: %f", location.y);
-	DrawFormatString(0, 100, GetColor(255, 255, 255), "scroll = %f", scroll);
 }
 
 void Player::Finalize()

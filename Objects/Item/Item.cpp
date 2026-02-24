@@ -56,13 +56,6 @@ void Item::Draw(const Vector2D& screen_offset) const
 
 	DrawRotaGraph(drawX, drawY - 8, 1.0, 0.0, item_image, TRUE);
 
-	// “–‚½‚è”»’è‰Â‹‰»
-	Vector2D p0 = collision.point[0] + screen_offset;
-	Vector2D p1 = collision.point[1] + screen_offset;
-
-	// ã‰º‚Ì‰~
-	DrawCircle(p0.x, p0.y, collision.radius, GetColor(0, 0, 255), FALSE);
-	DrawCircle(p1.x, p1.y, collision.radius, GetColor(0, 0, 255), FALSE);
 
 }
 
