@@ -49,7 +49,7 @@ void Player::Initialize()
 	velocity = Vector2D(0.0f, 0.0f);
 
 
-	box_size = Vector2D(110.0f, 150.0f);
+	box_size = Vector2D(D_OBJECT_SIZE * 2, D_OBJECT_SIZE * 3);
 }
 
 void Player::Update(float delta_second)
@@ -94,16 +94,12 @@ void Player::Draw(const Vector2D& screen_offset) const
 
 	state->Draw(screen_offset);
 
-	/*DrawBox(location.x + box_size.x / 2, location.y + box_size.y / 2,
-		location.x - box_size.x / 2, location.y - box_size.y / 2,
-		GetColor(255, 0, 0), FALSE);*/
+	DrawBox(drawX + box_size.x / 2, drawY + box_size.y / 2,
+		drawX - box_size.x / 2, drawY - box_size.y / 2,
+		GetColor(255, 0, 0), FALSE);
 	
 	DrawFormatString(400, 50, GetColor(255, 255, 255), "PlayerLocationY: %f", location.y);
 	DrawFormatString(0, 100, GetColor(255, 255, 255), "scroll = %f", scroll);
-	
-	// デバッグ：プレイヤーの状態を表示
-	DrawFormatString(0, 150, GetColor(255, 255, 255), "Player State: %d", state->GetState());
-	DrawFormatString(0, 170, GetColor(255, 255, 255), "Player State: %d", input->GetButtonInputState(XINPUT_BUTTON_DPAD_RIGHT));
 }
 
 void Player::Finalize()
@@ -161,9 +157,9 @@ void Player::Movement(float delta_second)
 
 	// x軸の当たり判定
 
-	if (location.y >= 600.0f)
+	if (location.y >= 640.0f)
 	{
-		location.y = 600.0f;
+		location.y = 640.0f;
 		velocity.y = 0.0f;
 		on_ground = true;
 	}
