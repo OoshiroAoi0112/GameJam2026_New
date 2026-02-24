@@ -10,6 +10,10 @@ Player::Player() :
 	prev_location(0.0f, 0.0f),
 	has_ground_candidate(false),
 	ground_top_y(0.0f),
+	has_wall_candidate_left(false),
+	wall_right_x(0.0f),
+	has_wall_candidate_right(false),
+	wall_left_x(0.0f),
 	on_ground(false),
 	state(nullptr),
 	next_state(ePlayerState::NONE)
@@ -108,12 +112,13 @@ void Player::Finalize()
 
 void Player::Movement(float delta_second)
 {
-	// 前フレームの位置を保存
-	prev_location = location;
-	// 地面候補のリセット
-	has_ground_candidate = false;
-	// 地面候補の上端のY座標のリセット
-	ground_top_y = 0.0f;
+	prev_location = location;         // 前フレームの位置を保存
+	has_ground_candidate = false;     // 地面候補のリセット
+	has_wall_candidate_left = false;  // 左の壁候補のリセット
+	has_wall_candidate_right = false; // 右の壁候補のリセット
+	ground_top_y = 0.0f;              // 地面候補の上端のY座標のリセット
+	wall_left_x = 0.0f;               // 右の壁候補の左端のX座標のリセット
+	wall_right_x = 0.0f;              // 左の壁候補の右端のX座標のリセット
 	// 地面にいるかどうかのリセット
 	on_ground = false;
 
@@ -173,6 +178,7 @@ void Player::OnHitCollision(GameObject* hit_object)
 {
 	if(hit_object->GetCollision().object_type == eObjectType::block)
 	{
+		// ----- 上方向の当たり判定 ----- //
 		// --- ヒットしたブロックの上端のy座標を求める --- //
 		// ブロックの高さの半分を求める
 		const float blockHalfY = hit_object->GetBoxSize().y / 2.0f;
@@ -180,12 +186,71 @@ void Player::OnHitCollision(GameObject* hit_object)
 		const float blockTop = hit_object->GetLocation().y - blockHalfY;
 
 		// 床候補の上端のy座標を保存
-		if (!has_ground_candidate || blockTop < ground_top_y && velocity.y > 0.0f)
+		if (velocity.y > 0.0f && (!has_ground_candidate || blockTop > ground_top_y))
 		{
 			// 床候補の上端のy座標を保存
 			ground_top_y = blockTop;
 			// 地面候補があるフラグを立てる
 			has_ground_candidate = true;
+		}
+
+		// 誤差許容値（プレイヤーとブロックがほぼ同じ位置にある場合の判定のため）
+		const float eps = 5.0f;
+
+		// ブロックの縦範囲（top/bottom）
+		const float blockBottom = hit_object->GetLocation().y + blockHalfY;
+
+		// プレイヤーの縦範囲（壁判定用に上下を縮める）
+		const float playerHalfY = box_size.y / 2.0f;
+		const float nowTopE = (location.y - playerHalfY) + eps;
+		const float nowBottomE = (location.y + playerHalfY) - eps;
+
+		// 壁として扱うかどうかの判定
+		const bool yOverlapForWall = (nowTopE < blockBottom) && (nowBottomE > blockTop);
+
+		// ----- x方向の当たり判定 ----- //
+		// --- 左の壁に当たったときは壁の右端のx座標を求める --- //
+		// ブロックの幅の半分を求める
+		const float blockHalfX_left = hit_object->GetBoxSize().x / 2.0f;
+		// ブロックの右端のx座標を求める
+		const float blockRight = hit_object->GetLocation().x + blockHalfX_left;
+		// プレイヤーの元左端のx座標を求める
+		const float prevLeft = prev_location.x - box_size.x / 2.0f;
+		// プレイヤーの左端のx座標を求める
+		const float nowLeft = location.x - box_size.x / 2.0f;
+
+		// 壁候補の右端のx座標を保存
+		if (yOverlapForWall &&
+			velocity.x < 0.0f &&
+			prevLeft >= blockRight && nowLeft < blockRight &&
+			(!has_wall_candidate_left || blockRight > wall_right_x))
+		{
+			// 左の壁候補の右端のx座標を保存
+			wall_right_x = blockRight;
+			// 左の壁候補があるフラグを立てる
+			has_wall_candidate_left = true;
+		}
+
+		// --- 右の壁に当たったときは壁の左端のx座標を求める --- //
+		// ブロックの幅の半分を求める
+		const float blockHalfX_right = hit_object->GetBoxSize().x / 2.0f;
+		// ブロックの左端のx座標を求める
+		const float blockLeft = hit_object->GetLocation().x - blockHalfX_right;
+		// プレイヤーの元右端のx座標を求める
+		const float prevRight = prev_location.x + box_size.x / 2.0f;
+		// プレイヤーの右端のx座標を求める
+		const float nowRight = location.x + box_size.x / 2.0f;
+
+		// 壁候補の左端のx座標を保存
+		if (yOverlapForWall &&
+			velocity.x > 0.0f &&
+			prevRight <= blockLeft && nowRight > blockLeft &&
+			(!has_wall_candidate_right || blockLeft < wall_left_x))
+		{
+			// 右の壁候補の左端のx座標を保存
+			wall_left_x = blockLeft;
+			// 右の壁候補があるフラグを立てる
+			has_wall_candidate_right = true;
 		}
 	}
 	else if(hit_object->GetCollision().object_type == eObjectType::enemy)
@@ -203,7 +268,7 @@ void Player::OnHitCollision(GameObject* hit_object)
 		score += 10;
 		mg.SetScore(score);
 	}
-	else if(hit_object->GetCollision().IsCheckHitTarget(eObjectType::gool))
+	else if(hit_object->GetCollision().object_type == eObjectType::gool)
 	{
 		// ゴールに当たったときの処理
 	}
@@ -211,25 +276,68 @@ void Player::OnHitCollision(GameObject* hit_object)
 
 void Player::PostCollision(float delta_second)
 {
-	// 地面候補がない場合は、地面との当たり判定を行わない
-	if (!has_ground_candidate) return;
-
 	// ----- 地面との当たり判定 ----- //
-	// プレイヤーの下端のy座標を求める
-	const float playerHalfY = box_size.y / 2.0f;
-	// 前フレームのプレイヤーの下端のy座標
-	const float prevBottom = prev_location.y + playerHalfY;
-	// 今フレームのプレイヤーの下端のy座標
-	const float nowBottom = location.y + playerHalfY;
-	// ブロックの上端のy座標
-	const float blockTop = ground_top_y;
-
-	// 上からブロックに当たったときに突き抜けた分押し戻す
-	if (velocity.y > 0.0f && prevBottom <= blockTop && nowBottom > blockTop)
+	// --- 上から踏んだ時だけ --- //
+	if (has_ground_candidate)
 	{
-		location.y = blockTop - playerHalfY;
-		velocity.y = 0.0f;
-		on_ground = true;
+		// ----- 地面との当たり判定 ----- //
+		// --- 必要な値を求める --- //
+		// - プレイヤーの下端のy座標を求める - //
+		const float playerHalfY = box_size.y / 2.0f;
+		// 前フレームのプレイヤーの下端のy座標
+		const float prevBottom = prev_location.y + playerHalfY;
+		// 今フレームのプレイヤーの下端のy座標
+		const float nowBottom = location.y + playerHalfY;
+		// ブロックの上端のy座標
+		const float blockTop = ground_top_y;
+
+		if(velocity.y > 0.0f && prevBottom <= blockTop && nowBottom > blockTop)
+		{
+			location.y = blockTop - playerHalfY;
+			velocity.y = 0.0f;
+			on_ground = true;
+		}
+	}
+	// ----- x方向の当たり判定（左） ----- //
+	// --- 左から当たったときは壁の右端を見る --- //
+	if (has_wall_candidate_left)
+	{
+		// ----- x方向の当たり判定（左） ----- //
+		// --- 必要な値を求める --- //
+		// - プレイヤーの左端のx座標を求める - //
+		const float playerHalfX = box_size.x / 2.0f;
+		// 前フレームのプレイヤーの左端のx座標
+		const float prevLeft = prev_location.x - playerHalfX;
+		// 今フレームのプレイヤーの左端のx座標
+		const float nowLeft = location.x - playerHalfX;
+		// ブロックの右端のx座標
+		const float blockRight = wall_right_x;
+
+		if (velocity.x < 0.0f && prevLeft >= blockRight && nowLeft < blockRight)
+		{
+			location.x = blockRight + playerHalfX;
+			velocity.x = 0.0f;
+		}
+	}
+	// ----- x方向の当たり判定（右） ----- //
+	// --- 右から当たったときは壁の左端を見る --- //
+	if (has_wall_candidate_right)
+	{
+		// ----- x方向の当たり判定（右） ----- //
+		// --- 必要な値を求める --- //
+		// - プレイヤーの右端のx座標を求める - //
+		const float playerHalfX = box_size.x / 2.0f;
+		// 前フレームのプレイヤーの右端のx座標
+		const float prevRight = prev_location.x + playerHalfX;
+		// 今フレームのプレイヤーの右端のx座標
+		const float nowRight = location.x + playerHalfX;
+		// ブロックの左端のx座標
+		const float blockLeft = wall_left_x;
+		if (velocity.x > 0.0f && prevRight <= blockLeft && nowRight > blockLeft)
+		{
+			location.x = blockLeft - playerHalfX;
+			velocity.x = 0.0f;
+		}
 	}
 }
 
