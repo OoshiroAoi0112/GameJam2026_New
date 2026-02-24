@@ -87,29 +87,44 @@ void Enemy::Update(float delta_second)
 
 void Enemy::Draw(const Vector2D& screen_offset) const
 {
-    drawX = location.x + screen_offset.x;
-    drawY = location.y + screen_offset.y;
+    float drawX = location.x + screen_offset.x;
+    float drawY = location.y + screen_offset.y;
 
-    int width, height;
-    GetGraphSize(image, &width, &height);
+    
 
     // エネミー画像
-    DrawRotaGraph(drawX, drawY, 1.0, angle, image, TRUE, direction == 1);
+    DrawRotaGraph(
+        drawX,
+        drawY,
+        1.0,
+        angle,
+        image,
+        TRUE,
+        direction == 1
+    );
 
+    // 当たり判定（デバッグ）
     Vector2D p0 = collision.point[0] + screen_offset;
     Vector2D p1 = collision.point[1] + screen_offset;
 
-    // 上下の円
     DrawCircle(p0.x, p0.y, collision.radius, GetColor(0, 0, 255), FALSE);
     DrawCircle(p1.x, p1.y, collision.radius, GetColor(0, 0, 255), FALSE);
-
-    // 中央の線
     DrawLine(p0.x, p0.y, p1.x, p1.y, GetColor(0, 0, 255));
 
-    DrawFormatString(900, 200,
+    DrawFormatString(
+        1000, 20,
         GetColor(255, 255, 255),
-        "start_x=%.1f location=%.1f",
-        start_x, location.x);
+        "enemy_location.x.x = %.2f",
+        location.x
+    );
+
+    DrawFormatString(
+        1000, 40,
+        GetColor(255, 255, 255),
+        "enemy_drawX = %.2f",
+        drawX
+    );
+
 }
 
 void Enemy::Finalize()

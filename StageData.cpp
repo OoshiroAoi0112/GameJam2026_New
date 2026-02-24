@@ -170,7 +170,6 @@ void StageData::Initialize()
 
 void StageData::Update(float delta_second)
 {
-	s_location += velocity.x;
 }
 
 void StageData::Draw(const Vector2D& screen_offset) const

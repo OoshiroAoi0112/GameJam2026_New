@@ -45,6 +45,12 @@ void Block::Draw(const Vector2D& screen_offset) const
     // ブロック（足場）画像
     DrawRotaGraph(drawX, drawY, 1.0, 0.0, image, TRUE, 0);
 
+    /*DrawFormatString(0, 40, GetColor(255, 255, 255),
+        "drawX: %.2f", drawX);
+    DrawFormatString(0, 40, GetColor(255, 255, 255),
+        "location.x: %.2f", location.x);*/
+
+
     // 当たり判定可視化
     Vector2D p0 = collision.point[0] + screen_offset;
     Vector2D p1 = collision.point[1] + screen_offset;

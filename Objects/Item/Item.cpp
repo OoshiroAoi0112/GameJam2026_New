@@ -49,10 +49,24 @@ void Item::Draw(const Vector2D& screen_offset) const
 	float drawX = location.x + screen_offset.x;
 	float drawY = location.y + screen_offset.y;
 
+	__super::Draw(screen_offset);
+
 	DrawRotaGraph(drawX, drawY - 8, 1.0, 0.0, item_image, TRUE);
 
-	DrawFormatString(640, 40, GetColor(255, 255, 255),
-		"drawX: %.2f", drawX);
+	DrawFormatString(
+		1000, 70,
+		GetColor(255, 255, 255),
+		"enemu_location.x = %.2f",
+		location.x
+	);
+
+	DrawFormatString(
+		1000, 100,
+		GetColor(255, 255, 255),
+		"ItemX = %.2f",
+		drawX
+	);
+
 }
 
 void Item::Finalize()

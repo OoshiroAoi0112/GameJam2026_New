@@ -23,7 +23,7 @@ public:
 	eMobilityType mobility;	    // ˆÚ“®ƒ^ƒCƒv
 
 	int z_layer;				// •`‰æ‚Ì—Dæ‡ˆÊ
-	
+	int image;
 	int graphic_images;			// •`‰æ‚·‚é‰æ‘œ
 	int flip_flag;				// ‰æ‘œ”½“]ƒtƒ‰ƒO
 

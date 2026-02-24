@@ -173,20 +173,20 @@ void InGameScene::Draw() const
 	}
 	
 	//デバッグ用
-	DrawFormatString(10, 50, GetColor(255, 255, 255),
-		"offset.x = %.2f", screen_offset.x);
+	//DrawFormatString(10, 50, GetColor(255, 255, 255),
+	//	"offset.x = %.2f", screen_offset.x);
 
-	DrawFormatString(0, 0, GetColor(255, 255, 255),
-		"PlayerLocationX: %.2f", player->GetLocation().x);
+	//DrawFormatString(0, 0, GetColor(255, 255, 255),
+	//	"PlayerLocationX: %.2f", player->GetLocation().x);
 
-	DrawFormatString(0, 20, GetColor(255, 255, 255),
-		"PlayerVelocityX: %.2f", player->GetVelocity().x);
+	//DrawFormatString(0, 20, GetColor(255, 255, 255),
+	//	"PlayerVelocityX: %.2f", player->GetVelocity().x);
 
-	DrawFormatString(0, 40, GetColor(255, 255, 255),
-		"PlayerLocationY: %.2f", player->GetLocation().y);
+	//DrawFormatString(0, 40, GetColor(255, 255, 255),
+	//	"PlayerLocationY: %.2f", player->GetLocation().y);
 
-	DrawFormatString(1100, 40, GetColor(255, 255, 255),
-		"delay: %d", delay);
+	//DrawFormatString(1100, 40, GetColor(255, 255, 255),
+	//	"delay: %d", delay);
 
 	__super::Draw();
 }

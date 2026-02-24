@@ -31,9 +31,16 @@ void GameObject::Update(float delta_second)
 
 void GameObject::Draw(const Vector2D& screen_offset) const
 {
-	//オフセット値を基に画像の描画を行う
-	Vector2D graph_location = this->location + screen_offset;
-	DrawRotaGraphF(graph_location.x, graph_location.y, 1.0, 0.0, graphic_images, TRUE, this->flip_flag);
+	Vector2D draw_pos;
+	draw_pos.x = location.x + screen_offset.x;
+	draw_pos.y = location.y + screen_offset.y;
+
+	DrawGraph(
+		static_cast<int>(draw_pos.x),
+		static_cast<int>(draw_pos.y),
+		image,
+		TRUE
+	);
 }
 
 void GameObject::Finalize()
