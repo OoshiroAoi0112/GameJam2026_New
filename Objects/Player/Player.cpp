@@ -261,7 +261,7 @@ void Player::OnHitCollision(GameObject* hit_object)
 		owner_scene->DestroyObject(hit_object);
 		auto& mg = GameDataManager::GetInstance();
 		int score = mg.GetScore();
-		score += 10;
+		score += 100;
 		mg.SetScore(score);
 	}
 	else if(hit_object->GetCollision().object_type == eObjectType::gool)
