@@ -111,20 +111,6 @@ void Enemy::Draw(const Vector2D& screen_offset) const
     DrawCircle(p1.x, p1.y, collision.radius, GetColor(0, 0, 255), FALSE);
     DrawLine(p0.x, p0.y, p1.x, p1.y, GetColor(0, 0, 255));
 
-    DrawFormatString(
-        1000, 20,
-        GetColor(255, 255, 255),
-        "enemy_location.x.x = %.2f",
-        location.x
-    );
-
-    DrawFormatString(
-        1000, 40,
-        GetColor(255, 255, 255),
-        "enemy_drawX = %.2f",
-        drawX
-    );
-
 }
 
 void Enemy::Finalize()

@@ -12,6 +12,8 @@ private:
 	class Enemy* enemy;
 	class Item* item;
 
+	std::vector<int> num_image;  //数字用アニメーション
+
 	StageData stage_data;
 
 	int background_image;
