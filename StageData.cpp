@@ -216,12 +216,12 @@ void StageData::Draw(const Vector2D& screen_offset) const
     // ゴール地点のハウス
     for (const auto& pos : house_positions)
     {
-        DrawGraph((int)(pos.x + velocity.x), (int)pos.y, house_image, TRUE);
+        DrawGraph(static_cast<int>(pos.x + screen_offset.x), static_cast<int>(pos.y + screen_offset.y), house_image, TRUE);
     }
     //// サンタ
     for (const auto& pos : santa_positions)
     {
-        DrawGraph((int)(pos.x + velocity.x), (int)pos.y, santa_image, TRUE);
+        DrawGraph(static_cast<int>(pos.x + screen_offset.x), static_cast<int>(pos.y + screen_offset.y), santa_image, TRUE);
     }
 }
 
