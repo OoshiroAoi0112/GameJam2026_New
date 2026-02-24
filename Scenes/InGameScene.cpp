@@ -142,6 +142,11 @@ eSceneType InGameScene::Update(const float& delta_second)
 
 	//Draw();
 
+	if(player->GetDeadFlag() == true)
+	{
+		return eSceneType::eResult;
+	}
+
 	// 親クラスの更新処理を呼び出す
 	return __super::Update(delta_second);;
 }

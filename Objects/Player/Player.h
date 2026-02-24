@@ -17,6 +17,7 @@ class Player : public GameObject
 {
 public:
 	bool on_ground;    // 地面にいるかどうか
+	bool dead;         // 死んでいるかどうか
 
 private:
 	InputControl* input;  // 入力情報
@@ -36,7 +37,6 @@ private:
 	// - 右から当たるときは壁の左端を見る - //
 	bool has_wall_candidate_right; // 右の壁候補があるかどうか
 	float wall_left_x;           // 右の壁候補の左端のX座標
-
 	
 	class PlayerStateBase* state;
 	ePlayerState next_state;  // 次の状態
@@ -78,4 +78,6 @@ public:
 	const Vector2D& GetVelocity() const;
 	// カメラ視点の値を受け取る
 	void SetScroll(float scrollX);
+
+	bool GetDeadFlag();
 };

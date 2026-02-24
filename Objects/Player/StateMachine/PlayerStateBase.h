@@ -13,6 +13,11 @@ public:
 
 	}
 
+	virtual void SetOwner(Player* p)
+	{
+		player = p;
+	}
+
 	virtual ~PlayerStateBase() = default;
 
 public:
