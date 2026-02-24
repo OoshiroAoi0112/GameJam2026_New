@@ -104,40 +104,25 @@ eSceneType InGameScene::Update(const float& delta_second)
 		item_spawned = true; // 二重生成防止
 	}
 
-	player->SetScroll(screen_offset.x);
-	__super::Update(delta_second);
+	// 画面中央にプレイヤーを置く
+	screen_offset.x = 1280.0f / 2.0f - player->GetLocation().x;
 
-	float velocity = player->GetVelocity().x * delta_second;
-
-	// スクロール条件
-	if (player->GetLocation().x >= 1280 / 2 ||
-		player->GetLocation().x <= 30)
+	// 左端制限（ステージ開始）
+	if (screen_offset.x > 0.0f)
 	{
-		// プレイヤーの加速度分スクロールする
-		screen_offset.x -= velocity;
-	}
-	else
-	{
-		// スクロールできなくさせる
-		velocity = 0;
+		screen_offset.x = 0.0f;
 	}
 
-	// 左端制限
-	if (screen_offset.x > 0)
-	{
-		screen_offset.x = 0;
-		velocity = 0;
-	}
+	// 右端制限（ステージ終端）
+	const float STAGE_WIDTH = 181.0f * 32.0f; // csv 横サイズ
+	const float SCREEN_WIDTH = 1280.0f;
 
-	// 右端制限
-	if (screen_offset.x < -4540)
-	{
-		screen_offset.x = -4540;
-		velocity = 0;
-	}
+	float min_offset = SCREEN_WIDTH - STAGE_WIDTH;
 
-	// 最後に一度だけ設定
-	Stage->SetVelocity(velocity);
+	if (screen_offset.x < min_offset)
+	{
+		screen_offset.x = min_offset;
+	}
 
 	//// リザルト画面に遷移する
 	if (screen_offset.x <= -4540 && player->GetLocation().x >850)
@@ -173,11 +158,11 @@ void InGameScene::Draw() const
 	}
 	
 	//デバッグ用
-	//DrawFormatString(10, 50, GetColor(255, 255, 255),
-	//	"offset.x = %.2f", screen_offset.x);
+	DrawFormatString(10, 50, GetColor(255, 255, 255),
+		"offset.x = %.2f", screen_offset.x);
 
-	//DrawFormatString(0, 0, GetColor(255, 255, 255),
-	//	"PlayerLocationX: %.2f", player->GetLocation().x);
+	DrawFormatString(0, 0, GetColor(255, 255, 255),
+		"PlayerLocationX: %.2f", player->GetLocation().x);
 
 	//DrawFormatString(0, 20, GetColor(255, 255, 255),
 	//	"PlayerVelocityX: %.2f", player->GetVelocity().x);

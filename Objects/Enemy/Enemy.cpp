@@ -56,7 +56,7 @@ void Enemy::Update(float delta_second)
         AnimeCount(delta_second);
 
         // ˆÚ“®
-        location.x += direction * speed * delta_second;
+        //location.x += direction * speed * delta_second;
 
         // ‰E’[
         if (location.x >= start_x + move_range)
