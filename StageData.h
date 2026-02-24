@@ -39,10 +39,14 @@ private:
 	std::vector<Vector2D> snowman_positions;  // 雪だるま用
 	std::vector<Vector2D> city_positions;  // 街並み用
 	std::vector<Vector2D> tree_positions;  // 枯れ木
+	std::vector<Vector2D> house_positions;//ハウス(ゴール)
+	std::vector<Vector2D> santa_positions;//サンタ
 
 	int snowman_image;  // 雪だるま
 	int city_image;  // 街並み
 	int tree_image;  //枯れ木
+	int house_image; //ハウス(ゴール)
+	int santa_image; //サンタ
 public:
 	StageData() = default;
 

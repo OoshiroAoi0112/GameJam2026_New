@@ -12,6 +12,7 @@
 #include <string>
 #include <sstream>
 
+
 StageData* StageData::instance = nullptr;
 
 void StageData::Load()
@@ -41,7 +42,8 @@ void StageData::Load()
     snowman_image = rm->GetImages("Resource/image/snowman.png").at(0);
     city_image = rm->GetImages("Resource/image/city.png").at(0);
     tree_image = rm->GetImages("Resource/image/tree1.png").at(0);
-
+    santa_image = rm->GetImages("Resource/image/santa.png").at(0);
+    house_image = rm->GetImages("Resource/image/house.png").at(0);
 	//fgetsでファイルから１行抜き出す
 	while (fgets(buffer, sizeof(buffer), fp) != NULL)
 	{
@@ -134,7 +136,26 @@ void StageData::Load()
 				// アイテムの位置を渡す
 				item_spwn_positions.push_back(pos);
             }
-            // 1セル処理したら必ず次の列へ
+             //サンタの家
+            if (*p == 'h')
+            {
+                Vector2D pos;
+                pos.x = x * block_size;
+                pos.y = y * block_size;
+
+                house_positions.push_back(pos);
+            }
+
+            // サンタ
+            if (*p == 'g')
+            {
+                Vector2D pos;
+                pos.x = x * block_size;
+                pos.y = y * block_size;
+
+                santa_positions.push_back(pos);
+            }
+             //1セル処理したら必ず次の列へ
             x++;
         }
 
@@ -191,6 +212,16 @@ void StageData::Draw(const Vector2D& screen_offset) const
     for (const auto& pos : tree_positions)
     {
         DrawGraph(static_cast<int>(pos.x + screen_offset.x),static_cast<int>(pos.y + screen_offset.y),tree_image,TRUE);
+    }
+    // ゴール地点のハウス
+    for (const auto& pos : house_positions)
+    {
+        DrawGraph((int)(pos.x + velocity.x), (int)pos.y, house_image, TRUE);
+    }
+    //// サンタ
+    for (const auto& pos : santa_positions)
+    {
+        DrawGraph((int)(pos.x + velocity.x), (int)pos.y, santa_image, TRUE);
     }
 }
 
