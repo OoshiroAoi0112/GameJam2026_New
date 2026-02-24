@@ -19,7 +19,6 @@ private:
 	int present_image;
 
 	int delay;
-	int score;  // スコア
 
 private:
 	eSceneType next_scene; // 遷移先のシーン
