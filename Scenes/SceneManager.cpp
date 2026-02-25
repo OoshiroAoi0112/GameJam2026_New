@@ -32,7 +32,7 @@ void SceneManager::WakeUp()
 	SetGraphMode(D_WIN_MAX_X, D_WIN_MAX_Y, D_COLOR_BIT);
 
 	//ウィンドウタイルの設定
-	SetWindowText("Game Jam 2026");
+	SetWindowText("Rolling Adventure");
 
 	//垂直同期を行わない
 	SetWaitVSyncFlag(FALSE);
