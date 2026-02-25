@@ -84,8 +84,7 @@ void SceneManager::Run()
 		Graph();
 
 		// ゲームを終了するか確認する
-		if ((next_scene_type == eSceneType::eEnd) ||
-			(input->GetButtonInputState(XINPUT_BUTTON_BACK) == ePadInputState::ePress))
+		if (next_scene_type == eSceneType::eEnd)
 		{
 			break;
 		}
