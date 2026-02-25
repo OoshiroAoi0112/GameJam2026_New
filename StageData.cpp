@@ -196,7 +196,6 @@ void StageData::Update(float delta_second)
 void StageData::Draw(const Vector2D& screen_offset) const
 {
     ResourceManager* rm = ResourceManager::GetInstance();
-	DrawFormatString(120, 140, GetColor(255, 255, 0), "%d",location);
 
     // ê·ÇæÇÈÇ‹óp
     for (const auto& pos : snowman_positions)

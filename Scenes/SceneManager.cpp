@@ -32,7 +32,7 @@ void SceneManager::WakeUp()
 	SetGraphMode(D_WIN_MAX_X, D_WIN_MAX_Y, D_COLOR_BIT);
 
 	//ウィンドウタイルの設定
-	SetWindowText("Game Development Super-Mario 2024");
+	SetWindowText("Game Jam 2026");
 
 	//垂直同期を行わない
 	SetWaitVSyncFlag(FALSE);
@@ -54,7 +54,7 @@ void SceneManager::WakeUp()
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	//最初のシーンをタイトル画面にする
-	ChangeScene(eSceneType::eInGame);
+	ChangeScene(eSceneType::eTitle);
 
 	//非アクティブ状態でも動作させる
 	SetAlwaysRunFlag(TRUE);
